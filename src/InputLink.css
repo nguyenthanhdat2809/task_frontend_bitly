@@ -1,5 +1,5 @@
 .input-link {
-  gap: 30px;
+  gap: 50px;
   display: flex;
   justify-content: space-between;
   margin-left: -10px;
@@ -48,4 +48,17 @@
 
 .right .submit:hover {
   background: #2a5bd7;
+}
+
+.err-noty .content {
+  height: 50px;
+  background: #ec7a7a;
+  margin-left: -7px;
+  margin-right: -7px;
+  border-radius: 5px;
+}
+
+.err-noty .content span {
+  line-height: 50px;
+  color: #672a2a;
 }
