@@ -1,12 +1,23 @@
-import { useState } from "react";
-import { createdLink } from "./service/linkService";
+import { useEffect, useState } from "react";
+import { createdLink, getAllLink } from "./service/linkService";
 import "./InputLink.css";
+import toastr from "toastr";
 
 export default function InputLink() {
   const [link, setLink] = useState("");
   const [isSubmit, setIsSubmit] = useState(false);
   const [isCopy, setIsCopy] = useState(false);
   const [err, setErr] = useState("");
+  const [listLink, setListLink] = useState([]);
+
+  useEffect(async () => {
+    await getAllLinkService();
+  }, []);
+
+  const getAllLinkService = async () => {
+    let res = await getAllLink();
+    setListLink(res.data);
+  }
 
   const handleOnChange = (e) => {
     console.log(e.target.value);
@@ -17,6 +28,7 @@ export default function InputLink() {
     let res = await createdLink({
       longUrl: link,
     });
+
     setErr("");
 
     if (res && res.data) {
@@ -45,7 +57,16 @@ export default function InputLink() {
         return;
       }
     }
+
+    await getAllLinkService();
   };
+
+  const handleCopy = (shortUrl) => {
+    navigator.clipboard.writeText(shortUrl);
+    toastr.success('We do have the Kapua suite available.', 'Turtle Bay Resort', {timeOut: 1000})
+  }
+
+  console.log(listLink);
   return (
     <div className="container-form">
       <div className="input-link">
@@ -75,6 +96,31 @@ export default function InputLink() {
           </div>
         </div>
       )}
+
+      {listLink &&
+        listLink.map((link, i) => {
+          return (
+            <div className="result">
+              <div className="result-left">
+                <div className="long url">
+                  <span>
+                    {link.longUrl}
+                  </span>
+                </div>
+              </div>
+
+              <div className="result-right">
+                <div className="short-url">
+                  <span>{link.shortUrl}</span>
+                </div>
+
+                <div className="btn">
+                  <button className="btn-copy" onClick={() => handleCopy(link.shortUrl)}>Copy</button>
+                </div>
+              </div>
+            </div>
+          );
+        })}
     </div>
   );
 }
