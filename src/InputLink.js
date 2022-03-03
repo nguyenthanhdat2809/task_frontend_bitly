@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { createdLink, getAllLink } from "./service/linkService";
 import "./InputLink.css";
-import toastr from "toastr";
 
 export default function InputLink() {
   const [link, setLink] = useState("");
@@ -66,6 +65,13 @@ export default function InputLink() {
     toastr.success('We do have the Kapua suite available.', 'Turtle Bay Resort', {timeOut: 1000})
   }
 
+  const handleRiderect = (url) => {
+    window.open(
+      url,
+      '_blank'
+    );
+  }
+
   console.log(listLink);
   return (
     <div className="container-form">
@@ -111,7 +117,7 @@ export default function InputLink() {
 
               <div className="result-right">
                 <div className="short-url">
-                  <span>{link.shortUrl}</span>
+                  <span onClick={() => handleRiderect(link.shortUrl)}>{link.shortUrl}</span>
                 </div>
 
                 <div className="btn">
