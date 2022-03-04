@@ -9,6 +9,9 @@ export default function InputLink() {
   const [err, setErr] = useState("");
   const [listLink, setListLink] = useState([]);
 
+  const BASE_URL = "http://localhost:5000";
+  console.log(BASE_URL);
+
   useEffect(async () => {
     await getAllLinkService();
   }, []);
@@ -36,6 +39,7 @@ export default function InputLink() {
     }
 
     if (isSubmit) {
+
       navigator.clipboard.writeText(link);
       setIsCopy(true);
       setTimeout(() => {
